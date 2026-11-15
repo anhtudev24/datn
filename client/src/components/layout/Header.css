@@ -1,0 +1,133 @@
+/* ===== HEADER ===== */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 66px;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+
+.header--hidden {
+  transform: translateY(-100%);
+}
+
+/* Logo */
+.header__left {
+  display: flex;
+  align-items: center;
+  min-width: 240px;
+}
+
+.header__logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.header__logo-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  background: linear-gradient(135deg, #ff6b35, #f7441a);
+  color: #fff;
+  font-size: 20px;
+  font-weight: 800;
+  border-radius: 8px;
+}
+
+.header__logo-text {
+  font-size: 15px;
+  font-weight: 700;
+  color: #242424;
+  letter-spacing: -0.2px;
+}
+
+/* Search */
+.header__center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+.header__search {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+  background-color: #f1f1f1;
+  border-radius: 20px;
+  padding: 0 16px;
+  transition: border 0.2s;
+  border: 2px solid transparent;
+}
+
+.header__search:focus-within {
+  border-color: #333;
+  background-color: #fff;
+}
+
+.header__search-icon {
+  color: #888;
+  flex-shrink: 0;
+  margin-right: 8px;
+}
+
+.header__search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  color: #333;
+}
+
+.header__search-input::placeholder {
+  color: #999;
+}
+
+/* Auth Buttons */
+.header__right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 200px;
+  justify-content: flex-end;
+}
+
+.header__btn {
+  padding: 8px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 20px;
+  text-decoration: none;
+  transition: opacity 0.2s;
+  cursor: pointer;
+}
+
+.header__btn:hover {
+  opacity: 0.85;
+  text-decoration: none;
+}
+
+.header__btn--register {
+  color: #333;
+  background: transparent;
+}
+
+.header__btn--login {
+  color: #fff;
+  background: linear-gradient(135deg, #ff6b35, #f7441a);
+}
