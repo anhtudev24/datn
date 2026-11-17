@@ -1,97 +1,73 @@
-# TÀI LIỆU THIẾT KẾ CƠ SỞ DỮ LIỆU MYSQL (ĐỒ ÁN TỐT NGHIỆP)
-**Hệ thống học lập trình trực tuyến (E-Learning Platform)**
+# TÀI LIỆU THIẾT KẾ CƠ SỞ DỮ LIỆU MYSQL TỐI ƯU (10 BẢNG CỐT LÕI)
+**Đồ án tốt nghiệp: Hệ thống học lập trình trực tuyến E-Learning Platform**
 
-Tài liệu này mô tả chi tiết kiến trúc CSDL quan hệ MySQL được chuẩn hóa theo dạng chuẩn 3 (3NF), ánh xạ 100% với các tính năng trên giao diện:
-1. Xác thực & Quản lý người dùng (`/login`, `/register`, `/profile`)
-2. Khóa học, Chương học & Bài học (Trang chủ & Danh mục)
-3. Lộ trình nghề nghiệp (`/lo-trinh`)
-4. Đăng ký & Tiến độ học tập (`/khoa-hoc-cua-toi`)
-5. Đơn hàng & Thanh toán (`/my-orders`, `/payment-history`)
-6. Bảng tin cộng đồng (`/bang-tin`)
-7. Thông báo & Nhật ký hoạt động (`/activities`)
+Tài liệu này trình bày kiến trúc CSDL quan hệ MySQL được **tinh gọn xuống đúng 10 bảng**, loại bỏ các bảng trung gian không cần thiết nhờ ứng dụng các tính năng hiện đại của MySQL (kiểu dữ liệu `JSON`, trường tổng hợp), nhưng vẫn đảm bảo **100% dữ liệu và chức năng** trên toàn bộ giao diện người dùng.
 
 ---
 
-## 1. Sơ đồ quan hệ thực thể (ERD - Entity Relationship Diagram)
+## 1. Sơ đồ quan hệ thực thể (ERD Diagram - 10 Bảng)
 
 ```mermaid
 erDiagram
     users ||--o{ courses : "giảng dạy"
     users ||--o{ enrollments : "đăng ký học"
-    users ||--o{ orders : "đặt mua"
-    users ||--o{ payments : "thanh toán"
+    users ||--o{ orders : "đặt mua và thanh toán"
     users ||--o{ articles : "viết bài"
     users ||--o{ article_comments : "bình luận"
-    users ||--o{ article_likes : "thích bài viết"
-    users ||--o{ notifications : "nhận thông báo"
-    users ||--o{ user_activities : "ghi nhận hoạt động"
-    users ||--o{ certificates : "nhận chứng chỉ"
+    users ||--o{ notifications : "nhận thông báo và hoạt động"
 
     categories ||--o{ courses : "phân loại"
-    courses ||--o{ course_sections : "gồm các chương"
-    course_sections ||--o{ lessons : "gồm các bài học"
+    courses ||--o{ lessons : "chứa bài học theo chương"
+    courses ||--o{ enrollments : "được tham gia"
+    courses ||--o{ orders : "trong đơn hàng"
 
-    courses ||--o{ enrollments : "được đăng ký"
-    courses ||--o{ order_items : "trong đơn hàng"
-    courses ||--o{ certificates : "cấp chứng nhận"
-
-    roadmaps ||--o{ roadmap_steps : "gồm các chặng"
-    roadmaps ||--o{ roadmap_skills : "yêu cầu kỹ năng"
-    roadmaps ||--o{ roadmap_courses : "liên kết khóa học"
-    courses ||--o{ roadmap_courses : "thuộc lộ trình"
-
-    orders ||--o{ order_items : "chi tiết đơn hàng"
-    orders ||--o{ payments : "giao dịch thanh toán"
-
-    lessons ||--o{ lesson_progress : "theo dõi tiến độ"
-    users ||--o{ lesson_progress : "học viên hoàn thành"
-
-    articles ||--o{ article_comments : "có bình luận"
-    articles ||--o{ article_likes : "có lượt thích"
-    articles ||--o{ article_tag_relations : "gắn thẻ"
-    article_tags ||--o{ article_tag_relations : "thuộc thẻ"
+    articles ||--o{ article_comments : "chứa bình luận"
 ```
 
 ---
 
-## 2. Danh mục 22 bảng trong CSDL
+## 2. Danh mục & Vai trò của 10 bảng cốt lõi
 
-| STT | Tên bảng | Chức năng trên giao diện |
-|:---:|:---|:---|
-| 1 | `users` | Tài khoản học viên, giảng viên, admin, thông tin cá nhân |
-| 2 | `categories` | Danh mục phân loại khóa học (Front-end, Back-end...) |
-| 3 | `courses` | Danh sách khóa học, giá bán, thời lượng, số học viên |
-| 4 | `course_sections` | Các chương học trong từng khóa |
-| 5 | `lessons` | Từng bài học, video bài giảng, thời lượng |
-| 6 | `roadmaps` | Lộ trình nghề nghiệp: Front-end, Back-end, Fullstack, DevOps |
-| 7 | `roadmap_steps` | Các chặng học trong lộ trình (Chặng 1, 2, 3...) |
-| 8 | `roadmap_skills` | Danh sách kỹ năng cần tích lũy trong lộ trình |
-| 9 | `roadmap_courses` | Bảng liên kết khóa học thuộc lộ trình |
-| 10 | `enrollments` | Khóa học người dùng đang học (Trang Khóa học của tôi) |
-| 11 | `lesson_progress` | Đánh dấu bài học nào đã hoàn thành |
-| 12 | `certificates` | Chứng chỉ hoàn thành khóa học |
-| 13 | `orders` | Đơn hàng mua khóa học (Trang Đơn hàng của tôi) |
-| 14 | `order_items` | Khóa học chi tiết trong từng đơn hàng |
-| 15 | `payments` | Lịch sử giao dịch thanh toán (Trang Lịch sử thanh toán) |
-| 16 | `articles` | Bài viết chia sẻ trên trang Bảng tin |
-| 17 | `article_tags` | Thẻ tag bài viết (#React.js, #Node.js...) |
-| 18 | `article_tag_relations` | Liên kết bài viết và các thẻ |
-| 19 | `article_comments` | Bình luận dưới bài viết |
-| 20 | `article_likes` | Lượt thích bài viết |
-| 21 | `notifications` | Thông báo gửi tới học viên (Icon Chuông thông báo) |
-| 22 | `user_activities` | Nhật ký hoạt động học tập (Trang Hoạt động) |
+| STT | Tên bảng | Chức năng trên giao diện | Kỹ thuật tối ưu hóa áp dụng |
+|:---:|:---|:---|:---|
+| 1 | `users` | Quản lý học viên, giảng viên, admin, profile, đổi mật khẩu | Phân quyền qua `ENUM('student', 'instructor', 'admin')`, index email & username |
+| 2 | `categories` | Danh mục khóa học (Front-end, Back-end, Fullstack, DevOps) | Quản lý danh mục linh hoạt theo slug |
+| 3 | `courses` | Khóa học, giá tiền, cấp độ, số bài học, học viên đăng ký | Khóa ngoại liên kết `categories` và `users` |
+| 4 | `lessons` | Từng bài học, video bài giảng, tài liệu, học thử | **Gộp bảng chương**: Thêm trường `section_name` trực tiếp, bỏ bảng phụ `course_sections` |
+| 5 | `roadmaps` | Lộ trình nghề nghiệp: Front-end, Back-end, Fullstack, DevOps | **JSON Data Type**: Lưu trữ mảng `steps_json` và `skills_json` ngay trong bảng, bỏ 3 bảng phụ |
+| 6 | `enrollments` | Khóa học của tôi: Tiến độ %, bài học dở, chứng nhận hoàn thành | **Tích hợp Certificate**: Lưu `current_lesson_title` và `certificate_code` trực tiếp |
+| 7 | `orders` | Quản lý đơn hàng và lịch sử thanh toán | **Gộp Order & Payment**: Lưu `order_code`, `transaction_code`, `payment_method` trong 1 bảng |
+| 8 | `articles` | Bảng tin cộng đồng, chia sẻ bài viết kỹ thuật | **JSON Tags**: Lưu mảng tags `["React.js", "Node.js"]`, bỏ 2 bảng phụ `tags` & `tag_relations` |
+| 9 | `article_comments` | Bình luận và thảo luận dưới bài viết | Hỗ trợ trả lời lồng nhau qua `parent_id` (Self-referencing) |
+| 10 | `notifications` | Popup Chuông thông báo trên Header & Trang "Hoạt động" | **Đa năng**: Phân biệt bằng `type = 'notification'` hoặc `type = 'activity'` |
 
 ---
 
-## 3. Hướng dẫn Import vào MySQL
+## 3. Các kỹ thuật tối ưu hóa chính đã thực hiện:
 
-### Cách 1: Sử dụng MySQL Command Line
+1. **Gộp chương học vào bảng `lessons` (`section_name`):** 
+   - Thay vì tạo bảng `course_sections` chỉ để chứa tên chương, cột `section_name` ("Chương 1: Khởi động...") được đưa thẳng vào bảng `lessons`, giảm 1 phép `JOIN` tốn kém khi truy vấn danh sách bài học.
+2. **Ứng dụng kiểu dữ liệu `JSON` cho Lộ trình (`roadmaps`) & Bảng tin (`articles`):**
+   - Lưu các chặng học (`steps_json`) và kỹ năng (`skills_json`) trong bảng `roadmaps`.
+   - Lưu danh sách thẻ (`tags_json`) trong bảng `articles`.
+   - Giúp giảm 5 bảng trung gian liên kết nhiều-nhiều (`roadmap_steps`, `roadmap_skills`, `roadmap_courses`, `article_tags`, `article_tag_relations`).
+3. **Gộp Đơn hàng & Thanh toán (`orders`):**
+   - Vì mỗi đơn hàng trong hệ thống khóa học thường đi liền với một giao dịch thanh toán trực tuyến (VNPay/Vietcombank), bảng `orders` tích hợp luôn mã giao dịch `transaction_code`, phương thức thanh toán và trạng thái thành công. Phục vụ hoàn hảo cả 2 trang **"Đơn hàng của tôi"** (`/my-orders`) và **"Lịch sử thanh toán"** (`/payment-history`).
+4. **Tích hợp Chứng chỉ vào `enrollments`:**
+   - Khi `progress_percent = 100`, hệ thống tự sinh `certificate_code` (ví dụ: `CERT-2026-F8902JS`) ngay trên dòng đăng ký, không cần tách riêng bảng `certificates`.
+5. **Gộp Thông báo Header & Nhật ký Hoạt động (`notifications`):**
+   - Cột `type ENUM('notification', 'activity')` cho phép dùng chung một bảng: vừa hiển thị danh sách trong popup Chuông Header, vừa vẽ dòng thời gian trên trang `/activities`.
+
+---
+
+## 4. Hướng dẫn Import vào MySQL
+
+### Sử dụng lệnh Terminal / CMD:
 ```bash
 mysql -u root -p < database/schema.sql
 ```
 
-### Cách 2: Sử dụng phpMyAdmin / MySQL Workbench / DBeaver / Navicat
-1. Mở phần mềm quản lý CSDL (như phpMyAdmin hoặc MySQL Workbench).
-2. Tạo mới một query tab hoặc chọn tab **Import**.
-3. Mở file [database/schema.sql](file:///x:/DATN/database/schema.sql), sao chép toàn bộ nội dung và ấn **Run / Execute**.
-4. Toàn bộ 22 bảng kèm dữ liệu mẫu sẽ được tạo tự động với charset chuẩn `utf8mb4_unicode_ci` (hỗ trợ đầy đủ tiếng Việt).
+### Sử dụng phpMyAdmin / MySQL Workbench / DBeaver / Navicat:
+1. Mở công cụ quản trị CSDL MySQL.
+2. Mở file [database/schema.sql](file:///x:/DATN/database/schema.sql).
+3. Chạy lệnh thực thi (Execute). Database `datn_learning_db` sẽ được khởi tạo với 10 bảng chuẩn và có sẵn toàn bộ dữ liệu mẫu khớp 100% với giao diện hiện tại.
