@@ -1,0 +1,493 @@
+/* ===== USER PAGES (PROFILE, ORDERS, PAYMENTS) ===== */
+.user-page {
+  padding: 16px 0 48px;
+  min-height: calc(100vh - 120px);
+}
+
+.user-page__container {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.user-page__header {
+  margin-bottom: 24px;
+}
+
+.user-page__title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1e293b;
+  letter-spacing: -0.015em;
+  margin-bottom: 4px;
+}
+
+.user-page__subtitle {
+  font-size: 14px;
+  color: #64748b;
+}
+
+/* Alert Notification */
+.user-alert {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 13.5px;
+}
+
+.user-alert--success {
+  background-color: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #16a34a;
+}
+
+/* ===== PROFILE LAYOUT ===== */
+.user-profile-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 24px;
+}
+
+.user-profile-sidebar {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  height: fit-content;
+}
+
+.user-profile-avatar-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.user-profile-avatar-big {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background-color: #e2e8f0;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.user-profile-avatar-big img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-profile-name {
+  font-size: 17px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 2px;
+}
+
+.user-profile-handle {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.user-profile-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  border-top: 1px solid #f1f5f9;
+  padding-top: 16px;
+}
+
+.user-stat-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-stat-num {
+  font-size: 18px;
+  font-weight: 600;
+  color: #ff6b35;
+}
+
+.user-stat-label {
+  font-size: 12px;
+  color: #64748b;
+}
+
+/* Form */
+.user-profile-form-wrap {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 28px 24px;
+}
+
+.user-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.user-form-group {
+  margin-bottom: 16px;
+}
+
+.user-form-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: #334155;
+  margin-bottom: 6px;
+}
+
+.user-form-input,
+.user-form-textarea {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 13.5px;
+  color: #1e293b;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.user-form-input:focus,
+.user-form-textarea:focus {
+  border-color: #ff6b35;
+  background-color: #ffffff;
+}
+
+.user-form-textarea {
+  resize: vertical;
+}
+
+.user-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+.user-btn-save {
+  padding: 10px 24px;
+  background-color: #ff6b35;
+  color: #ffffff;
+  font-size: 13.5px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.user-btn-save:hover {
+  background-color: #e55a2b;
+}
+
+/* ===== ORDERS LIST ===== */
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.order-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.order-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+
+.order-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.order-card__meta strong {
+  color: #1e293b;
+}
+
+.order-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.order-status--active {
+  background-color: #ecfdf5;
+  color: #059669;
+}
+
+.order-card__body {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.order-thumb {
+  width: 100px;
+  height: 64px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.order-info {
+  flex: 1;
+}
+
+.order-course-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 4px;
+}
+
+.order-payment-method {
+  font-size: 12.5px;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+
+.order-price-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.order-price {
+  font-size: 15px;
+  font-weight: 600;
+  color: #ff6b35;
+}
+
+.order-price-original {
+  font-size: 12.5px;
+  color: #94a3b8;
+  text-decoration: line-through;
+}
+
+.order-btn-study {
+  padding: 8px 18px;
+  background-color: #f1f5f9;
+  color: #1e293b;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background-color 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
+}
+
+.order-btn-study:hover {
+  background-color: #ff6b35;
+  color: #ffffff;
+}
+
+/* ===== PAYMENT TABLE ===== */
+.table-responsive {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow-x: auto;
+}
+
+.payment-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+  text-align: left;
+}
+
+.payment-table th {
+  background-color: #f8fafc;
+  padding: 14px 18px;
+  font-weight: 600;
+  color: #475569;
+  border-bottom: 1px solid #e2e8f0;
+  white-space: nowrap;
+}
+
+.payment-table td {
+  padding: 14px 18px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
+  white-space: nowrap;
+}
+
+.payment-code {
+  font-weight: 600;
+  color: #1e293b;
+  font-family: ui-monospace, SFMono-Regular, monospace;
+}
+
+.payment-amount {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.payment-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.payment-badge--success {
+  background-color: #ecfdf5;
+  color: #059669;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .user-profile-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .user-form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .order-card__body {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .order-action {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .order-btn-study {
+    display: block;
+    text-align: center;
+  }
+}
+/* ===== PASSWORD & EYE TOGGLE ===== */
+.user-input-password-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.user-input-password-wrap .user-form-input {
+  padding-right: 56px;
+}
+
+.user-btn-eye {
+  position: absolute;
+  right: 12px;
+  background: transparent;
+  border: none;
+  font-size: 13px;
+  font-weight: 500;
+  color: #64748b;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.user-btn-eye:hover {
+  color: #ff6b35;
+}
+
+.user-alert--error {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+}
+
+/* ===== ACTIVITIES TIMELINE ===== */
+.activity-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  padding-left: 20px;
+}
+
+.activity-timeline::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 6px;
+  width: 2px;
+  background-color: #e2e8f0;
+}
+
+.activity-item {
+  position: relative;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 16px 20px;
+}
+
+.activity-item__dot {
+  position: absolute;
+  top: 20px;
+  left: -20px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #ff6b35;
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 0 2px #ff6b35;
+}
+
+.activity-item__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.activity-item__title {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.activity-item__time {
+  font-size: 12px;
+  color: #94a3b8;
+  white-space: nowrap;
+}
+
+.activity-item__badge {
+  display: inline-block;
+  font-size: 12px;
+  color: #ff6b35;
+  background-color: #fff7ed;
+  border: 1px solid #ffedd5;
+  padding: 2px 8px;
+  border-radius: 4px;
+}

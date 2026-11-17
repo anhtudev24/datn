@@ -253,15 +253,15 @@ const HomePage = () => {
         <div className="home__banner-content">
           <div className="home__banner-badge">
             <span className="home__banner-badge-indicator"></span>
-            <span>Chương trình đào tạo thực chiến</span>
+            <span>Chương trình đào tạo thực tuyến</span>
           </div>
 
           <h1 className="home__banner-title">
-            Lộ trình Fullstack chuyên sâu từ số 0 đến đi làm
+            Nâng tầm tri thức, bứt phá kỹ năng trong kỷ nguyên số
           </h1>
 
           <p className="home__banner-desc">
-            Chương trình đào tạo tương tác trực tuyến với trợ giảng hỗ trợ 1 kèm 1, chấm bài và review code chi tiết theo tiêu chuẩn dự án thực tế tại doanh nghiệp.
+            Nền tảng học tập trực tuyến tương tác cao, kết hợp lý thuyết trọng tâm và thực hành dự án giúp bạn làm chủ công nghệ từ con số 0.
           </p>
 
           <div className="home__banner-actions">
@@ -327,7 +327,7 @@ const HomePage = () => {
                   <polygon points="23 7 16 12 23 17 23 7" />
                   <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
                 </svg>
-                <span>Học trực tuyến có trợ giảng</span>
+                <span>Học trực tuyến qua video</span>
               </div>
             </div>
           </div>

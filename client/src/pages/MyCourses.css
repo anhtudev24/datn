@@ -1,0 +1,308 @@
+/* ===== MY COURSES PAGE (KHÓA HỌC CỦA TÔI) ===== */
+.mycourses-page {
+  padding: 12px 0 48px;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.mycourses-header {
+  margin-bottom: 24px;
+}
+
+.mycourses-header__title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #1e293b;
+  letter-spacing: -0.015em;
+  margin-bottom: 6px;
+}
+
+.mycourses-header__desc {
+  font-size: 14.5px;
+  color: #64748b;
+}
+
+/* Guest State View */
+.mycourses-guest-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 64px 24px;
+  text-align: center;
+  max-width: 520px;
+  margin: 40px auto;
+}
+
+.mycourses-guest-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: #fff7ed;
+  color: #ff6b35;
+  margin-bottom: 18px;
+}
+
+.mycourses-guest-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 8px;
+}
+
+.mycourses-guest-desc {
+  font-size: 14px;
+  color: #64748b;
+  line-height: 1.55;
+  margin-bottom: 24px;
+}
+
+.mycourses-btn-login {
+  display: inline-block;
+  padding: 10px 24px;
+  background-color: #ff6b35;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.mycourses-btn-login:hover {
+  background-color: #e55a2b;
+}
+
+/* Logged In Stats Bar */
+.mycourses-stats-bar {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 16px 24px;
+  margin-bottom: 24px;
+}
+
+.mycourses-stat-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mycourses-stat-num {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ff6b35;
+}
+
+.mycourses-stat-label {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.mycourses-stat-divider {
+  width: 1px;
+  height: 24px;
+  background-color: #e2e8f0;
+}
+
+/* Tabs */
+.mycourses-tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.mycourses-tab {
+  padding: 8px 18px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #64748b;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.mycourses-tab:hover {
+  color: #1e293b;
+  border-color: #cbd5e1;
+}
+
+.mycourses-tab.active {
+  background-color: #ff6b35;
+  border-color: #ff6b35;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* Grid Khóa học */
+.mycourses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.mycourse-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.mycourse-card:hover {
+  transform: translateY(-2px);
+  border-color: #cbd5e1;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+}
+
+.mycourse-card__thumb-wrap {
+  position: relative;
+  width: 100%;
+  height: 160px;
+  overflow: hidden;
+}
+
+.mycourse-card__thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mycourse-badge-completed {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background-color: #10b981;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.mycourse-card__body {
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.mycourse-card__title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+
+.mycourse-card__author {
+  font-size: 13px;
+  color: #64748b;
+  margin-bottom: 16px;
+}
+
+/* Progress */
+.mycourse-progress-wrap {
+  margin-bottom: 16px;
+}
+
+.mycourse-progress-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12.5px;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+
+.mycourse-progress-header strong {
+  color: #ff6b35;
+}
+
+.mycourse-progress-bar {
+  width: 100%;
+  height: 6px;
+  background-color: #f1f5f9;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.mycourse-progress-fill {
+  height: 100%;
+  background-color: #ff6b35;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.mycourse-progress-fill--done {
+  background-color: #10b981;
+}
+
+.mycourse-current-lesson {
+  font-size: 12.5px;
+  color: #475569;
+  background-color: #f8fafc;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-bottom: 18px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mycourse-card__action {
+  margin-top: auto;
+}
+
+.mycourse-btn-continue {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 10px;
+  background-color: #ff6b35;
+  color: #ffffff;
+  font-size: 13.5px;
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.mycourse-btn-continue:hover {
+  background-color: #e55a2b;
+}
+
+.mycourse-btn-review {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 10px;
+  background-color: #f1f5f9;
+  color: #1e293b;
+  font-size: 13.5px;
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.mycourse-btn-review:hover {
+  background-color: #e2e8f0;
+}

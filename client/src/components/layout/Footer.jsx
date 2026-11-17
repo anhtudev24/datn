@@ -12,7 +12,7 @@ const Footer = () => {
           <Link to="/" className="footer__logo">
             <span className="footer__logo-icon">E</span>
           </Link>
-          <p className="footer__brand-text">HỌC LẬP TRÌNH ĐỂ ĐI LÀM</p>
+          <p className="footer__brand-text">Biến đam mê thành sự nghiệp</p>
         </div>
 
         {/* Cột Liên hệ */}

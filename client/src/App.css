@@ -12,3 +12,8 @@
   padding: 24px 32px;
   flex: 1;
 }
+
+.auth-standalone-layout {
+  min-height: 100vh;
+  width: 100%;
+}
