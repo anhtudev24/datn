@@ -57,14 +57,11 @@ const LoginPage = () => {
         password: loginPassword,
       });
 
-      const userObj = res.data?.user || {
-        id: 1,
-        name: 'Anh Tú',
-        email: loginEmail.trim(),
-        username: `@${loginEmail.split('@')[0]}`,
-      };
+      if (!res.data?.token || !res.data?.user) {
+        throw new Error(res.message || 'Đăng nhập không thành công, vui lòng thử lại');
+      }
 
-      login(res.data?.token || 'sample_jwt_token', userObj);
+      login(res.data.token, res.data.user);
       setSuccessModal('login');
     } catch (err) {
       setAlert({

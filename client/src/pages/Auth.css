@@ -2,7 +2,7 @@
    AUTHENTICATION PAGES (LOGIN & REGISTER)
    Tuân thủ nguyên tắc unslop (.agents):
    - 4px spacing scale
-   - Quiet chrome, 1 accent màu cam F8 (#ff6b35)
+   - Quiet chrome, 1 accent màu cam (#7c3aed)
    - Font stack an toàn tuyệt đối cho tiếng Việt (loại bỏ system-ui)
    - Weights tối đa 600 để giữ nét chữ sắc sảo, không vỡ glyph
    ========================================================================== */
@@ -47,7 +47,7 @@
   justify-content: center;
   width: 36px;
   height: 36px;
-  background-color: #ff6b35;
+  background-color: #7c3aed;
   color: #ffffff;
   font-weight: 600;
   font-size: 16px;
@@ -111,11 +111,11 @@
   font-size: 12px;
   font-weight: 500;
   color: #ff8c5a;
-  background-color: rgba(255, 107, 53, 0.1);
+  background-color: rgba(124, 58, 237, 0.1);
   padding: 4px 10px;
   border-radius: 6px;
   margin-bottom: 20px;
-  border: 1px solid rgba(255, 107, 53, 0.2);
+  border: 1px solid rgba(124, 58, 237, 0.2);
 }
 
 .auth-showcase__title {
@@ -129,7 +129,7 @@
 
 .auth-showcase__title em {
   font-style: normal;
-  color: #ff6b35;
+  color: #7c3aed;
 }
 
 .auth-showcase__desc {
@@ -295,7 +295,7 @@
   bottom: 3px;
   left: 3px;
   width: calc(50% - 3px);
-  background-color: #ff6b35;
+  background-color: #7c3aed;
   border-radius: 6px;
   transition: transform 0.26s cubic-bezier(0.22, 1, 0.36, 1);
   pointer-events: none;
@@ -422,7 +422,7 @@
 }
 
 .auth-input-wrap:focus-within {
-  border-color: #ff6b35;
+  border-color: #7c3aed;
   background-color: rgba(255, 255, 255, 0.06);
 }
 
@@ -436,7 +436,7 @@
 }
 
 .auth-input-wrap:focus-within .auth-input-icon {
-  color: #ff6b35;
+  color: #7c3aed;
 }
 
 .auth-input {
@@ -484,7 +484,7 @@
   width: 15px;
   height: 15px;
   margin-top: 2px;
-  accent-color: #ff6b35;
+  accent-color: #7c3aed;
   cursor: pointer;
 }
 
@@ -511,7 +511,7 @@
   justify-content: center;
   gap: 8px;
   padding: 11px 16px;
-  background-color: #ff6b35;
+  background-color: #7c3aed;
   color: #ffffff;
   font-size: 13.5px;
   font-weight: 600;
@@ -522,7 +522,7 @@
 }
 
 .auth-submit-btn:hover:not(:disabled) {
-  background-color: #e55a2b;
+  background-color: #6d28d9;
 }
 
 .auth-submit-btn:disabled {
@@ -630,7 +630,7 @@
 .auth-modal-btn {
   width: 100%;
   padding: 10px;
-  background-color: #ff6b35;
+  background-color: #7c3aed;
   color: #ffffff;
   font-size: 13.5px;
   font-weight: 600;
@@ -641,7 +641,7 @@
 }
 
 .auth-modal-btn:hover {
-  background-color: #e55a2b;
+  background-color: #6d28d9;
 }
 
 /* Responsive */

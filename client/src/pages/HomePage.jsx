@@ -1,251 +1,104 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import api from '../services/api';
 import './HomePage.css';
 
-/* ===== DỮ LIỆU KHÓA HỌC ===== */
-const recommendedCourses = [
-  {
-    id: 1,
-    title: 'DevOps Nâng Cao',
-    subtitle: 'Triển khai hạ tầng chuyên nghiệp với AWS',
-    tag: 'AWS',
-    accentColor: '#ff9900',
-    isPro: true,
-  },
-  {
-    id: 2,
-    title: 'DevOps Cơ Bản',
-    subtitle: 'Nền tảng CI/CD và Container hóa',
-    tag: 'DevOps',
-    accentColor: '#0db7ed',
-    isPro: true,
-  },
-  {
-    id: 3,
-    title: 'PostgreSQL Chuyên Sâu',
-    subtitle: 'Tối ưu truy vấn và thiết kế cơ sở dữ liệu lớn',
-    tag: 'PostgreSQL',
-    accentColor: '#336791',
-    isPro: true,
-  },
-  {
-    id: 4,
-    title: 'MySQL Quản Trị',
-    subtitle: 'Thiết kế cơ sở dữ liệu quan hệ cho backend',
-    tag: 'MySQL',
-    accentColor: '#00758f',
-    isPro: true,
-  },
-];
+const CourseCard = ({ course, variant = 'default' }) => {
+  const accentColor = course.accentColor || (variant === 'paid' ? '#8b5cf6' : variant === 'free' ? '#2563eb' : '#0ea5e9');
+  const isPro = Number(course.price) > 0;
 
-const freeCourses = [
-  {
-    id: 10,
-    title: 'HTML & CSS Cơ Bản',
-    subtitle: 'Bắt đầu từ số 0 cho người mới lập trình web',
-    tag: 'HTML/CSS',
-    accentColor: '#e44d26',
-    members: 185420,
-    lessons: 166,
-  },
-  {
-    id: 11,
-    title: 'JavaScript Nền Tảng',
-    subtitle: 'Cú pháp hiện đại ES6+, xử lý bất đồng bộ',
-    tag: 'JavaScript',
-    accentColor: '#d4b830',
-    members: 142300,
-    lessons: 204,
-  },
-  {
-    id: 12,
-    title: 'Responsive Web Design',
-    subtitle: 'Xây dựng giao diện tương thích đa thiết bị',
-    tag: 'CSS Grid/Flex',
-    accentColor: '#2965f1',
-    members: 67800,
-    lessons: 48,
-  },
-  {
-    id: 13,
-    title: 'Git & GitHub Thực Chiến',
-    subtitle: 'Quản lý phiên bản và quy trình làm việc nhóm',
-    tag: 'Git',
-    accentColor: '#f05033',
-    members: 95600,
-    lessons: 32,
-  },
-  {
-    id: 14,
-    title: 'Sass / SCSS Tiện Ích',
-    subtitle: 'Viết CSS gọn gàng, có cấu trúc và dễ mở rộng',
-    tag: 'Sass',
-    accentColor: '#cf649a',
-    members: 42100,
-    lessons: 24,
-  },
-  {
-    id: 15,
-    title: 'React JS Nền Tảng',
-    subtitle: 'Thư viện xây dựng giao diện người dùng hiện đại',
-    tag: 'React',
-    accentColor: '#0ea5e9',
-    members: 128700,
-    lessons: 136,
-  },
-  {
-    id: 16,
-    title: 'Node.js & ExpressJS',
-    subtitle: 'Xây dựng API RESTful và kết nối cơ sở dữ liệu',
-    tag: 'Node.js',
-    accentColor: '#22c55e',
-    members: 78500,
-    lessons: 88,
-  },
-  {
-    id: 17,
-    title: 'TypeScript Cho Web',
-    subtitle: 'Viết mã nguồn an toàn với hệ thống kiểu tĩnh',
-    tag: 'TypeScript',
-    accentColor: '#3178c6',
-    members: 34200,
-    lessons: 56,
-  },
-];
-
-const paidCourses = [
-  {
-    id: 20,
-    title: 'React.js Thực Chiến',
-    subtitle: 'Xây dựng dự án quy mô lớn, tối ưu render',
-    tag: 'React Pro',
-    accentColor: '#0ea5e9',
-    price: '1.299.000đ',
-    oldPrice: '2.500.000đ',
-  },
-  {
-    id: 21,
-    title: 'Node.js Microservices',
-    subtitle: 'Kiến trúc backend phân tán chịu tải cao',
-    tag: 'Node Pro',
-    accentColor: '#22c55e',
-    price: '1.499.000đ',
-    oldPrice: '2.800.000đ',
-  },
-  {
-    id: 22,
-    title: 'Next.js 15 Fullstack',
-    subtitle: 'App Router, Server Components và Server Actions',
-    tag: 'Next.js',
-    accentColor: '#171717',
-    price: '1.799.000đ',
-    oldPrice: '3.200.000đ',
-  },
-  {
-    id: 23,
-    title: 'Docker & Kubernetes',
-    subtitle: 'Đóng gói và điều phối container tự động',
-    tag: 'DevOps',
-    accentColor: '#0284c7',
-    price: '999.000đ',
-    oldPrice: '1.800.000đ',
-  },
-  {
-    id: 24,
-    title: 'MongoDB & Mongoose',
-    subtitle: 'Thiết kế cơ sở dữ liệu tài liệu linh hoạt',
-    tag: 'Database',
-    accentColor: '#10b981',
-    price: '899.000đ',
-    oldPrice: '1.600.000đ',
-  },
-  {
-    id: 25,
-    title: 'Cloud AWS Thực Hành',
-    subtitle: 'Triển khai EC2, S3, RDS và cấu hình VPC an toàn',
-    tag: 'AWS',
-    accentColor: '#f59e0b',
-    price: '1.999.000đ',
-    oldPrice: '3.500.000đ',
-  },
-  {
-    id: 26,
-    title: 'React Native Đa Nền Tảng',
-    subtitle: 'Lập trình ứng dụng di động cho iOS và Android',
-    tag: 'Mobile',
-    accentColor: '#6366f1',
-    price: '1.599.000đ',
-    oldPrice: '2.900.000đ',
-  },
-  {
-    id: 27,
-    title: 'Thiết Kế Hệ Thống',
-    subtitle: 'System Design cho kỹ sư phần mềm cao cấp',
-    tag: 'Architecture',
-    accentColor: '#8b5cf6',
-    price: '2.199.000đ',
-    oldPrice: '3.800.000đ',
-  },
-];
-
-const formatNumber = (num) => num.toLocaleString('vi-VN');
-
-const CourseCard = ({ course, variant = 'default' }) => (
-  <div className="course-card">
-    <div className="course-card__header">
-      <div className="course-card__badge-row">
-        <span
-          className="course-card__tag"
-          style={{
-            borderColor: `${course.accentColor}40`,
-            color: course.accentColor,
-            backgroundColor: `${course.accentColor}12`,
-          }}
-        >
-          {course.tag}
-        </span>
-        {course.isPro && <span className="course-card__pro-tag">Pro</span>}
+  return (
+    <Link to={`/courses/${course.slug}`} className="course-card">
+      <div className="course-card__header">
+        <div className="course-card__badge-row">
+          <span
+            className="course-card__tag"
+            style={{
+              borderColor: `${accentColor}40`,
+              color: accentColor,
+              backgroundColor: `${accentColor}12`,
+            }}
+          >
+            {course.category_name || course.tag || 'Lập trình'}
+          </span>
+          {isPro && <span className="course-card__pro-tag">Pro</span>}
+        </div>
+        <h3 className="course-card__title">{course.title}</h3>
+        <p className="course-card__subtitle">{course.description || 'Chương trình đào tạo thực chiến chuẩn doanh nghiệp'}</p>
       </div>
-      <h3 className="course-card__title">{course.title}</h3>
-      <p className="course-card__subtitle">{course.subtitle}</p>
-    </div>
 
-    <div className="course-card__footer">
-      {variant === 'free' && (
-        <div className="course-card__meta">
-          <span className="course-card__meta-item">
+      <div className="course-card__footer">
+        {variant === 'free' && (
+          <div className="course-card__meta">
+            <span className="course-card__meta-item">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+              </svg>
+              <span className="tabular-num">{(course.students_count || 0).toLocaleString('vi-VN')}</span> học viên
+            </span>
+            <span className="course-card__meta-dot">•</span>
+            <span className="course-card__meta-item">
+              <span className="tabular-num">{course.total_lessons_count || 0}</span> bài học
+            </span>
+          </div>
+        )}
+
+        {variant === 'paid' && (
+          <div className="course-card__pricing">
+            <span className="course-card__price tabular-num">
+              {Number(course.price).toLocaleString('vi-VN')}đ
+            </span>
+            {course.original_price && (
+              <span className="course-card__old-price tabular-num">
+                {Number(course.original_price).toLocaleString('vi-VN')}đ
+              </span>
+            )}
+          </div>
+        )}
+
+        {variant === 'default' && (
+          <div className="course-card__action-hint">
+            <span>Xem khóa học</span>
             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-              <circle cx="9" cy="7" r="4" />
+              <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
-            <span className="tabular-num">{formatNumber(course.members)}</span> học viên
-          </span>
-          <span className="course-card__meta-dot">•</span>
-          <span className="course-card__meta-item">
-            <span className="tabular-num">{course.lessons}</span> bài học
-          </span>
-        </div>
-      )}
-
-      {variant === 'paid' && (
-        <div className="course-card__pricing">
-          <span className="course-card__price tabular-num">{course.price}</span>
-          <span className="course-card__old-price tabular-num">{course.oldPrice}</span>
-        </div>
-      )}
-
-      {variant === 'default' && (
-        <div className="course-card__action-hint">
-          <span>Xem lộ trình</span>
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M5 12h14M12 5l7 7-7 7" />
-          </svg>
-        </div>
-      )}
-    </div>
-  </div>
-);
+          </div>
+        )}
+      </div>
+    </Link>
+  );
+};
 
 const HomePage = () => {
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      setLoading(true);
+      try {
+        const res = await api.get('/courses');
+        if (res.data ) {
+          setCourses(res.data);
+        }
+      } catch (err) {
+        console.error('Lỗi khi tải khóa học từ server:', err);
+        setError(err.message || 'Không thể kết nối máy chủ');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCourses();
+  }, []);
+
+  // Lọc khóa học theo thuộc tính lấy từ Database API
+  const featuredCourses = courses.filter((c) => Boolean(c.is_featured));
+  const freeCourses = courses.filter((c) => Number(c.price) === 0);
+  const paidCourses = courses.filter((c) => Number(c.price) > 0);
+
   return (
     <div className="home">
       {/* ===== HERO BANNER ===== */}
@@ -253,7 +106,7 @@ const HomePage = () => {
         <div className="home__banner-content">
           <div className="home__banner-badge">
             <span className="home__banner-badge-indicator"></span>
-            <span>Chương trình đào tạo thực tuyến</span>
+            <span>Chương trình đào tạo thực chiến</span>
           </div>
 
           <h1 className="home__banner-title">
@@ -265,19 +118,19 @@ const HomePage = () => {
           </p>
 
           <div className="home__banner-actions">
-            <button className="btn-primary">
+            <Link to="/lo-trinh" className="btn-primary">
               <span>Đăng ký nhận lộ trình</span>
               <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
-            </button>
+            </Link>
             <a href="#courses" className="btn-secondary">
               Xem danh sách khóa học
             </a>
           </div>
         </div>
 
-        {/* Console / Studio Preview (Real craft visual instead of AI floating blobs) */}
+        {/* Code Preview Studio */}
         <div className="home__banner-visual">
           <div className="code-preview">
             <div className="code-preview__header">
@@ -334,7 +187,7 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* ===== KHÓA HỌC DÀNH CHO BẠN ===== */}
+      {/* ===== KHÓA HỌC NỔI BẬT ===== */}
       <section className="home__section" id="courses">
         <div className="home__section-header">
           <div>
@@ -342,11 +195,16 @@ const HomePage = () => {
             <p className="home__section-subtitle">Lộ trình được thiết kế bài bản theo chuẩn yêu cầu doanh nghiệp</p>
           </div>
         </div>
-        <div className="home__course-grid">
-          {recommendedCourses.map((c) => (
-            <CourseCard key={c.id} course={c} />
-          ))}
-        </div>
+
+        {loading ? (
+          <div className="home__course-loading">Đang tải dữ liệu khóa học từ hệ thống...</div>
+        ) : (
+          <div className="home__course-grid">
+            {(featuredCourses.length > 0 ? featuredCourses : courses.slice(0, 4)).map((c) => (
+              <CourseCard key={c.id} course={c} />
+            ))}
+          </div>
+        )}
       </section>
 
       {/* ===== KHÓA HỌC MIỄN PHÍ ===== */}
@@ -356,18 +214,26 @@ const HomePage = () => {
             <h2 className="home__section-title">Khóa học miễn phí</h2>
             <p className="home__section-subtitle">Xây dựng nền tảng vững chắc cho người mới bắt đầu</p>
           </div>
-          <a href="/lo-trinh" className="home__section-link">
+          <Link to="/lo-trinh" className="home__section-link">
             <span>Xem toàn bộ lộ trình</span>
             <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
-          </a>
+          </Link>
         </div>
-        <div className="home__course-grid">
-          {freeCourses.map((c) => (
-            <CourseCard key={c.id} course={c} variant="free" />
-          ))}
-        </div>
+
+        {loading ? (
+          <div className="home__course-loading">Đang tải dữ liệu...</div>
+        ) : (
+          <div className="home__course-grid">
+            {freeCourses.map((c) => (
+              <CourseCard key={c.id} course={c} variant="free" />
+            ))}
+            {freeCourses.length === 0 && (
+              <p className="home__empty-notice">Chưa có khóa học miễn phí nào.</p>
+            )}
+          </div>
+        )}
       </section>
 
       {/* ===== KHÓA HỌC CÓ PHÍ (CHUYÊN SÂU) ===== */}
@@ -377,18 +243,26 @@ const HomePage = () => {
             <h2 className="home__section-title">Khóa học chuyên sâu</h2>
             <p className="home__section-subtitle">Nâng cao kỹ năng kiến trúc hệ thống và công nghệ hiện đại</p>
           </div>
-          <a href="/lo-trinh" className="home__section-link">
+          <Link to="/lo-trinh" className="home__section-link">
             <span>Xem tất cả khóa Pro</span>
             <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
-          </a>
+          </Link>
         </div>
-        <div className="home__course-grid">
-          {paidCourses.map((c) => (
-            <CourseCard key={c.id} course={c} variant="paid" />
-          ))}
-        </div>
+
+        {loading ? (
+          <div className="home__course-loading">Đang tải dữ liệu...</div>
+        ) : (
+          <div className="home__course-grid">
+            {paidCourses.map((c) => (
+              <CourseCard key={c.id} course={c} variant="paid" />
+            ))}
+            {paidCourses.length === 0 && (
+              <p className="home__empty-notice">Chưa có khóa học chuyên sâu nào.</p>
+            )}
+          </div>
+        )}
       </section>
     </div>
   );

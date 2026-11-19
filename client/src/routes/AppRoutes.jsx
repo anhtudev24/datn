@@ -10,6 +10,8 @@ import MyOrdersPage from '../pages/MyOrdersPage';
 import PaymentHistoryPage from '../pages/PaymentHistoryPage';
 import ActivitiesPage from '../pages/ActivitiesPage';
 import ChangePasswordPage from '../pages/ChangePasswordPage';
+import CourseDetailPage from '../pages/CourseDetailPage';
+import LearningPage from '../pages/LearningPage';
 
 const AppRoutes = () => {
   return (
@@ -21,6 +23,14 @@ const AppRoutes = () => {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<LoginPage />} />
       
+      {/* Landing page chi tiết khóa học */}
+      <Route path="/courses/:slug" element={<CourseDetailPage />} />
+      <Route path="/khoa-hoc/:slug" element={<CourseDetailPage />} />
+
+      {/* Không gian học tập (Video player + Curriculum) */}
+      <Route path="/learning/:slug" element={<LearningPage />} />
+      <Route path="/hoc-tap/:slug" element={<LearningPage />} />
+
       {/* Các chức năng cá nhân */}
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="/my-orders" element={<MyOrdersPage />} />

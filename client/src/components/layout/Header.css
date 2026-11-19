@@ -40,11 +40,12 @@
   justify-content: center;
   width: 38px;
   height: 38px;
-  background-color: #ff6b35;
+  background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
   color: #ffffff;
   font-size: 19px;
   font-weight: 700;
   border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);
 }
 
 .header__logo-text {
@@ -139,11 +140,13 @@
 
 .header__btn--login {
   color: #ffffff;
-  background-color: #ff6b35;
+  background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.25);
 }
 
 .header__btn--login:hover {
-  background-color: #e55a2b;
+  background: linear-gradient(135deg, #6d28d9 0%, #9333ea 100%);
+  box-shadow: 0 6px 18px rgba(124, 58, 237, 0.35);
 }
 
 /* ===== TRẠNG THÁI: ĐÃ ĐĂNG NHẬP ===== */
@@ -163,7 +166,7 @@
 }
 
 .header__my-courses-link:hover {
-  color: #ff6b35;
+  color: #7c3aed;
 }
 
 /* Nút Icon Chuông thông báo */
@@ -212,7 +215,7 @@
 }
 
 .header__avatar-btn.active {
-  box-shadow: 0 0 0 2px #ff6b35;
+  box-shadow: 0 0 0 2px #7c3aed;
 }
 
 .header__avatar-img {
@@ -282,6 +285,40 @@
 .header-dropdown__body--empty p {
   font-size: 13.5px;
   color: #64748b;
+}
+
+.header-dropdown__notif-list {
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.header-dropdown__notif-item {
+  padding: 12px 18px;
+  border-bottom: 1px solid #f1f5f9;
+  transition: background-color 0.15s ease;
+}
+
+.header-dropdown__notif-item:hover {
+  background-color: #f8fafc;
+}
+
+.header-dropdown__notif-item .notif-title {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 3px;
+}
+
+.header-dropdown__notif-item .notif-content {
+  font-size: 12.5px;
+  color: #64748b;
+  line-height: 1.4;
+  margin-bottom: 4px;
+}
+
+.header-dropdown__notif-item .notif-time {
+  font-size: 11px;
+  color: #94a3b8;
 }
 
 /* Popover User Avatar Menu (Ảnh 2) */
@@ -374,7 +411,7 @@
 
 .header-dropdown__item:hover {
   background-color: #f8fafc;
-  color: #ff6b35;
+  color: #7c3aed;
 }
 
 .header-dropdown__item--danger {

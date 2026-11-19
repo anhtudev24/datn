@@ -1,8 +1,10 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import api from '../services/api';
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
+  //// 1. Khởi tạo state user (lấy từ localStorage nếu trước đó đã đăng nhập)
   const [user, setUser] = useState(() => {
     try {
       const savedUser = localStorage.getItem('user');
@@ -13,38 +15,43 @@ export const AuthProvider = ({ children }) => {
   });
 
   const [token, setToken] = useState(() => localStorage.getItem('token') || null);
+  const [loading, setLoading] = useState(true);
 
+  // Khi tải ứng dụng, nếu có token thì gọi API /auth/me để lấy dữ liệu người dùng thật từ Server
   useEffect(() => {
-    // Nếu có token nhưng chưa có user (ví dụ vừa login với token mẫu), tạo user mặc định
-    if (token && !user) {
-      const defaultUser = {
-        id: 1,
-        name: 'Anh Tú',
-        email: 'anhtu@example.com',
-        username: '@tuanhifmzc',
-        phone: '0987654321',
-        bio: 'Học viên đam mê lập trình Fullstack Web',
-        avatar: null,
-      };
-      setUser(defaultUser);
-      localStorage.setItem('user', JSON.stringify(defaultUser));
-    }
-  }, [token, user]);
+    const verifyUser = async () => {
+      const savedToken = localStorage.getItem('token');
+      if (!savedToken) {
+        setUser(null);
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const res = await api.get('/auth/me');
+        if (res.data) {
+          setUser(res.data);
+          localStorage.setItem('user', JSON.stringify(res.data));
+        }
+      } catch (err) {
+        console.warn('Phiên đăng nhập không hợp lệ hoặc đã hết hạn, đăng xuất:', err);
+        setToken(null);
+        setUser(null);
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    verifyUser();
+  }, [token]);
 
   const login = (newToken, newUser) => {
-    const finalUser = newUser || {
-      id: 1,
-      name: 'Anh Tú',
-      email: 'anhtu@example.com',
-      username: '@tuanhifmzc',
-      phone: '0987654321',
-      bio: 'Học viên đam mê lập trình Fullstack Web',
-      avatar: null,
-    };
     setToken(newToken);
-    setUser(finalUser);
+    setUser(newUser);
     localStorage.setItem('token', newToken);
-    localStorage.setItem('user', JSON.stringify(finalUser));
+    localStorage.setItem('user', JSON.stringify(newUser));
   };
 
   const logout = () => {
@@ -62,17 +69,19 @@ export const AuthProvider = ({ children }) => {
     });
   };
 
-  const isAuthenticated = !!token && !!user;
+  const isAuthenticated = Boolean(token && user);
 
+  //// 1. Khởi tạo state user (lấy từ localStorage nếu trước đó đã đăng nhập)
   return (
-    <AuthContext.Provider value={{ user, token, isAuthenticated, login, logout, updateUser }}>
+    <AuthContext.Provider value={{ user, token, isAuthenticated, loading, login, logout, updateUser }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
+// Tạo custom hook 
 export const useAuth = () => {
-  const context = useContext(AuthContext);
+  const context = useContext(AuthContext); //lấy toàn bộ {user, token, isAuth}
   if (!context) {
     throw new Error('useAuth must be used within an AuthProvider');
   }

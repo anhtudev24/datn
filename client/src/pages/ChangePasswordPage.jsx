@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import api from '../services/api';
 import './UserPages.css';
 
 const ChangePasswordPage = () => {
@@ -12,7 +13,7 @@ const ChangePasswordPage = () => {
   const [alert, setAlert] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setAlert(null);
 
@@ -34,17 +35,28 @@ const ChangePasswordPage = () => {
 
     setLoading(true);
 
-    // Giả lập cập nhật mật khẩu thành công
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      // Gọi API đổi mật khẩu trong DB
+      const res = await api.put('/auth/change-password', {
+        currentPassword,
+        newPassword,
+      });
+
       setAlert({
         type: 'success',
-        message: 'Đổi mật khẩu thành công! Hãy ghi nhớ mật khẩu mới của bạn.',
+        message: res.message || 'Đổi mật khẩu thành công! Hãy ghi nhớ mật khẩu mới của bạn.',
       });
       setCurrentPassword('');
       setNewPassword('');
       setConfirmNewPassword('');
-    }, 600);
+    } catch (err) {
+      setAlert({
+        type: 'error',
+        message: err.message || 'Mật khẩu hiện tại không chính xác hoặc xảy ra lỗi',
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

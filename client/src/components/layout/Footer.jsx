@@ -19,7 +19,7 @@ const Footer = () => {
         <div className="footer__col">
           <div className="footer__contact-item">
             <span className="footer__contact-label">HOTLINE</span>
-            <span className="footer__contact-value">08 1919 8989</span>
+            <span className="footer__contact-value">036 508 5224</span>
           </div>
           <div className="footer__contact-item">
             <span className="footer__contact-label">EMAIL</span>
@@ -28,8 +28,8 @@ const Footer = () => {
           <div className="footer__contact-item">
             <span className="footer__contact-label">ĐỊA CHỈ</span>
             <span className="footer__contact-value">
-              Số 1, ngõ 41, Trần Duy Hưng,<br />
-              Cầu Giấy, Hà Nội
+              Số 1, ngõ 120, Yên Lãng,<br />
+               Hà Nội
             </span>
           </div>
           <div className="footer__contact-item">
@@ -63,18 +63,18 @@ const Footer = () => {
             <li><Link to="/quy-dinh-ve-gia">Quy định về giá</Link></li>
           </ul>
         </div>
-
-        {/* Cột Công cụ */}
+      
+        {
         <div className="footer__col">
           <h4 className="footer__col-title">CÔNG CỤ</h4>
           <ul className="footer__links">
-            <li><Link to="/tao-cv">Tạo CV xin việc</Link></li>
-            <li><Link to="/rut-gon-lien-ket">Rút gọn liên kết</Link></li>
-            <li><Link to="/clip-path-maker">Clip-path maker</Link></li>
-            <li><Link to="/snippet-generator">Snippet generator</Link></li>
-            <li><Link to="/css-grid-generator">CSS Grid generator</Link></li>
+            <li><Link to="/lo-trinh-hoc">Lộ trình học tập</Link></li>
+            <li><Link to="/ghi-chu-bai-giang">Ghi chú bài giảng</Link></li>
+            <li><Link to="/flashcard">Ôn tập Flashcard</Link></li>
+            <li><Link to="/tinh-diem-gpa">Tính điểm GPA</Link></li>
+            <li><Link to="/ke-hoach-on-thi">Lập kế hoạch ôn thi</Link></li>
           </ul>
-        </div>
+        </div>}
       </div>
     </footer>
   );

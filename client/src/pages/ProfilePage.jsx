@@ -1,28 +1,72 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import api from '../services/api';
 import './UserPages.css';
 
 const ProfilePage = () => {
   const { user, updateUser } = useAuth();
 
-  const [name, setName] = useState(user?.name || 'Anh Tú');
-  const [email, setEmail] = useState(user?.email || 'anhtu@example.com');
-  const [username, setUsername] = useState(user?.username || '@tuanhifmzc');
-  const [phone, setPhone] = useState(user?.phone || '0987654321');
-  const [bio, setBio] = useState(user?.bio || 'Học viên đam mê lập trình Fullstack Web');
+  const [name, setName] = useState(user?.name || '');
+  const [email, setEmail] = useState(user?.email || '');
+  const [username, setUsername] = useState(user?.username || (user?.email ? `@${user.email.split('@')[0]}` : ''));
+  const [phone, setPhone] = useState(user?.phone || '');
+  const [bio, setBio] = useState(user?.bio || '');
   const [savedSuccess, setSavedSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [enrolledCount, setEnrolledCount] = useState(0);
+  const [completedCount, setCompletedCount] = useState(0);
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    if (user) {
+      setName(user.name || '');
+      setEmail(user.email || '');
+      setUsername(user.username || (user.email ? `@${user.email.split('@')[0]}` : ''));
+      setPhone(user.phone || '');
+      setBio(user.bio || '');
+    }
+  }, [user]);
+
+  // Lấy số lượng khóa học thật từ API
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const res = await api.get('/enrollments');
+        if (res.data) {
+          setEnrolledCount(res.data.length);
+          const done = res.data.filter(e => e.status === 'completed' || Number(e.progress) >= 100).length;
+          setCompletedCount(done);
+        }
+      } catch (err) {
+        // im lặng nếu chưa đăng nhập
+      }
+    };
+
+    fetchStats();
+  }, []);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    updateUser({
-      name: name.trim(),
-      email: email.trim(),
-      username: username.trim(),
-      phone: phone.trim(),
-      bio: bio.trim(),
-    });
-    setSavedSuccess(true);
-    setTimeout(() => setSavedSuccess(false), 3000);
+    setLoading(true);
+    setErrorMessage(null);
+
+    try {
+      // Gọi API cập nhật vào MySQL
+      const res = await api.put('/auth/profile', {
+        name: name.trim(),
+        avatar: user?.avatar || null,
+      });
+
+      if (res.data) {
+        updateUser(res.data);
+        setSavedSuccess(true);
+        setTimeout(() => setSavedSuccess(false), 3000);
+      }
+    } catch (err) {
+      setErrorMessage(err.message || 'Không thể cập nhật thông tin cá nhân');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -42,6 +86,12 @@ const ProfilePage = () => {
           </div>
         )}
 
+        {errorMessage && (
+          <div className="user-alert" style={{ backgroundColor: '#fef2f2', border: '1px solid #fecaca', color: '#dc2626' }}>
+            <span>{errorMessage}</span>
+          </div>
+        )}
+
         <div className="user-profile-layout">
           {/* Cột trái: Avatar & tóm tắt */}
           <div className="user-profile-sidebar">
@@ -55,18 +105,18 @@ const ProfilePage = () => {
                   </svg>
                 )}
               </div>
-              <h3 className="user-profile-name">{name}</h3>
+              <h3 className="user-profile-name">{name || 'Học viên'}</h3>
               <p className="user-profile-handle">{username}</p>
             </div>
 
             <div className="user-profile-stats">
               <div className="user-stat-card">
-                <span className="user-stat-num">2</span>
+                <span className="user-stat-num">{enrolledCount}</span>
                 <span className="user-stat-label">Khóa học sở hữu</span>
               </div>
               <div className="user-stat-card">
-                <span className="user-stat-num">1</span>
-                <span className="user-stat-label">Chứng nhận</span>
+                <span className="user-stat-num">{completedCount}</span>
+                <span className="user-stat-label">Hoàn thành</span>
               </div>
             </div>
           </div>
@@ -85,15 +135,15 @@ const ProfilePage = () => {
                     required
                   />
                 </div>
-
                 <div className="user-form-group">
-                  <label className="user-form-label">Tên người dùng (Username)</label>
+                  <label className="user-form-label">Tên định danh</label>
                   <input
                     type="text"
                     className="user-form-input"
                     value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
+                    readOnly
+                    disabled
+                    style={{ backgroundColor: '#f8fafc', color: '#94a3b8' }}
                   />
                 </div>
               </div>
@@ -105,36 +155,20 @@ const ProfilePage = () => {
                     type="email"
                     className="user-form-input"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
+                    readOnly
+                    disabled
+                    style={{ backgroundColor: '#f8fafc', color: '#94a3b8' }}
                   />
                 </div>
-
-                <div className="user-form-group">
-                  <label className="user-form-label">Số điện thoại</label>
-                  <input
-                    type="tel"
-                    className="user-form-input"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div className="user-form-group">
-                <label className="user-form-label">Giới thiệu bản thân (Bio)</label>
-                <textarea
-                  className="user-form-textarea"
-                  rows={3}
-                  value={bio}
-                  onChange={(e) => setBio(e.target.value)}
-                  placeholder="Chia sẻ một chút về mục tiêu học tập và kỹ năng của bạn..."
-                />
               </div>
 
               <div className="user-form-actions">
-                <button type="submit" className="user-btn-save">
-                  Lưu thay đổi
+                <button
+                  type="submit"
+                  className="user-btn-save"
+                  disabled={loading}
+                >
+                  {loading ? 'Đang lưu...' : 'Lưu thay đổi'}
                 </button>
               </div>
             </form>

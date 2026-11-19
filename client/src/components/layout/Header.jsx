@@ -1,20 +1,41 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import api from '../../services/api';
 import './Header.css';
 
 const Header = () => {
   const navigate = useNavigate();
-  const { user, isAuthenticated, logout } = useAuth();
+  const { user, isAuthenticated, logout } = useAuth(); // hứng dữu liệu bên authContext
 
+  
   const [searchValue, setSearchValue] = useState('');
   const [hidden, setHidden] = useState(false);
   const [showNotify, setShowNotify] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [notifications, setNotifications] = useState([]);
 
   const lastScrollY = useRef(0);
   const notifyRef = useRef(null);
   const userMenuRef = useRef(null);
+
+  // Fetch thông báo từ API khi đăng nhập
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    const fetchNotifs = async () => {
+      try {
+        const res = await api.get('/notifications?type=notification');
+        if (res.data) {
+          setNotifications(res.data);
+        }
+      } catch (err) {
+        // im lặng nếu chưa có mạng
+      }
+    };
+
+    fetchNotifs();
+  }, [isAuthenticated]);
 
   // Xử lý ẩn/hiện header khi cuộn
   useEffect(() => {
@@ -71,7 +92,7 @@ const Header = () => {
       {/* CỘT TRÁI: LOGO */}
       <div className="header__left">
         <Link to="/" className="header__logo">
-          <span className="header__logo-icon">E</span>
+          <span className="header__logo-icon">ES</span>
           <span className="header__logo-text">Biến đam mê thành sự nghiệp</span>
         </Link>
       </div>
@@ -127,9 +148,21 @@ const Header = () => {
                   <div className="header-dropdown__header">
                     <h3>Thông báo</h3>
                   </div>
-                  <div className="header-dropdown__body header-dropdown__body--empty">
-                    <p>Chưa có thông báo nào</p>
-                  </div>
+                  {notifications.length > 0 ? (
+                    <div className="header-dropdown__notif-list">
+                      {notifications.map((n) => (
+                        <div key={n.id} className="header-dropdown__notif-item">
+                          <p className="notif-title">{n.title}</p>
+                          {n.content && <p className="notif-content">{n.content}</p>}
+                          <span className="notif-time">{n.time}</span>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="header-dropdown__body header-dropdown__body--empty">
+                      <p>Chưa có thông báo nào</p>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -174,8 +207,8 @@ const Header = () => {
                       )}
                     </div>
                     <div className="header-user-meta">
-                      <h4 className="header-user-name">{user?.name || 'Anh Tú'}</h4>
-                      <span className="header-user-handle">{user?.username || '@tuanhifmzc'}</span>
+                      <h4 className="header-user-name">{user?.name || 'Học viên'}</h4>
+                      <span className="header-user-handle">{user?.username || (user?.email ? `@${user.email.split('@')[0]}` : '')}</span>
                     </div>
                   </div>
 
